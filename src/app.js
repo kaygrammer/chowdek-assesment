@@ -17,6 +17,10 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to Kitchen Backend 💵💵💵");
+});
+
 // Routes
 app.use("/api/customers", customerRoutes);
 app.use("/api/vendors", vendorRoutes);
