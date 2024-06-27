@@ -80,7 +80,7 @@ https://documenter.getpostman.com/view/15577989/2sA3dskt41
 
 ### Running the Application
 
-2. Access the API at `http://localhost:4000`.
+2. Access the API at `http://13.60.96.79/`.
 
 ## API Endpoints
 
