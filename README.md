@@ -76,7 +76,7 @@ Make sure to to add the .env file at the root of the project. This will ensure t
 6. Kindly find the documentation with example requests and responses at:
 
 ```
-https://documenter.getpostman.com/view/15577989/2sA3JNaLR4
+https://documenter.getpostman.com/view/15577989/2sA3dskt41
 
 ### Running the Application
 
