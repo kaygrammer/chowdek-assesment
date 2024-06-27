@@ -115,6 +115,29 @@ class MenuController {
     }
   }
 
+  async updateVendorMenu(req, res) {
+    const vendorId = req.user.id;
+    const { id } = req.params;
+    const { error } = menuSchema.validate(req.body);
+    if (error) {
+      return errorResMsg(res, 400, error.message);
+    }
+    const menuData = req.body;
+    try {
+      const updatedMenu = await menuService.updateVendorMenu(id, vendorId, menuData);
+      return successResMsg(res, 200, {
+        message: "Menu updated successfully",
+        updatedMenu,
+      });
+    } catch (err) {
+      if (err instanceof CustomError) {
+        errorResMsg(res, err.statusCode, err.message);
+      } else {
+        errorResMsg(res, 500, "Oops, something went wrong...");
+      }
+    }
+  }
+
   async deleteMenu(req, res) {
     const { id } = req.params;
     try {

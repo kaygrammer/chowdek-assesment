@@ -1,4 +1,5 @@
 import MenuRepository from "../../repositories/menu/MenuRepository.js";
+import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuService {
   constructor() {
@@ -23,6 +24,17 @@ class MenuService {
 
   updateMenu(id, menuData) {
     return this.menuRepository.update(id, menuData);
+  }
+
+  async updateVendorMenu(id, vendorId, menuData) {
+    const menu = await this.menuRepository.findVendorMenu(id, vendorId);
+
+    if (!menu) {
+      throw new CustomError("Menu item not found or you do not have permission to edit this item", 403);
+    }
+
+    await this.menuRepository.update(id, menuData);
+    return await this.getMenuById(id);
   }
 
   deleteMenu(id) {

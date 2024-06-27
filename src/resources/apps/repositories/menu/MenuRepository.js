@@ -28,6 +28,12 @@ class MenuRepository {
     });
   }
 
+  async findVendorMenu(id, vendorId) {
+    return await Menu.findOne({
+      where: { id, vendorId },
+    });
+  }
+
   delete(id) {
     return Menu.destroy({
       where: { id },
