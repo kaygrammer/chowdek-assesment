@@ -29,11 +29,7 @@ class AuthMiddleware {
       const vendor = await vendorRepository.findById(vendorId);
 
       if (!vendor) {
-        return errorResMsg(
-          res,
-          401,
-          "You must be a vendor to access this contents"
-        );
+        return errorResMsg(res, 401, "You must be a vendor to access this contents");
       }
 
       next();
@@ -51,7 +47,7 @@ const generateAuthResponse = (payload) => {
   });
   return {
     token,
-    data: {
+    user: {
       id: payload.id,
       name: payload.name,
       email: payload.email,

@@ -1,24 +1,20 @@
 import VendorRepository from "../../repositories/vendor/VendorRepository.js";
 import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
-import { passwordCompare, passwordHash } from "../../../../middleware/hashing.js";
+import PasswordService from "../../../../middleware/hashing.js";
 import { generateAuthResponse } from "../../../../middleware/isAuthenticated.js";
 
 class VendorService {
-  constructor() {
-    this.vendorRepository = new VendorRepository();
-  }
-
-  async register(vendorData) {
+  static async register(vendorData) {
     try {
-      const existingVendor = await this.vendorRepository.findByEmail(vendorData.email);
+      const existingVendor = await VendorRepository.findByEmail(vendorData.email);
 
       if (existingVendor) {
         throw new CustomError("Email already in use", 400);
       }
 
-      const hashedPassword = await passwordHash(vendorData.password);
+      const hashedPassword = await PasswordService.hash(vendorData.password);
 
-      const newVendor = await this.vendorRepository.create({
+      const newVendor = await VendorRepository.create({
         ...vendorData,
         password: hashedPassword,
       });
@@ -29,14 +25,14 @@ class VendorService {
     }
   }
 
-  async login(email, password) {
+  static async login(email, password) {
     try {
-      const vendor = await this.vendorRepository.findByEmail(email);
+      const vendor = await VendorRepository.findByEmail(email);
       if (!vendor) {
         throw new CustomError("Vendor does not exist", 401);
       }
 
-      const checkPassword = await passwordCompare(password, vendor.password);
+      const checkPassword = await PasswordService.compare(password, vendor.password);
 
       if (!checkPassword) {
         throw new CustomError("Incorrect password, input the correct details and try again");
@@ -47,24 +43,24 @@ class VendorService {
       throw err;
     }
   }
-  getAllVendors() {
-    return this.vendorRepository.findAll();
+  static async getAllVendors() {
+    return await VendorRepository.findAll();
   }
 
-  getVendorById(id) {
-    return this.vendorRepository.findById(id);
+  static async getVendorById(id) {
+    return await VendorRepository.findById(id);
   }
 
-  createVendor(vendorData) {
-    return this.vendorRepository.create(vendorData);
+  static async createVendor(vendorData) {
+    return await VendorRepository.create(vendorData);
   }
 
-  updateVendor(id, vendorData) {
-    return this.vendorRepository.update(id, vendorData);
+  static async updateVendor(id, vendorData) {
+    return await VendorRepository.update(id, vendorData);
   }
 
-  deleteVendor(id) {
-    return this.vendorRepository.delete(id);
+  static async deleteVendor(id) {
+    return VendorRepository.delete(id);
   }
 }
 

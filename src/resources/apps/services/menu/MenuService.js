@@ -2,43 +2,39 @@ import MenuRepository from "../../repositories/menu/MenuRepository.js";
 import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuService {
-  constructor() {
-    this.menuRepository = new MenuRepository();
+  static async getAllMenus() {
+    return await MenuRepository.findAll();
   }
 
-  getAllMenus() {
-    return this.menuRepository.findAll();
+  static async getMenusByVendorId(vendorId) {
+    return await MenuRepository.findByVendorId(vendorId);
   }
 
-  getMenusByVendorId(vendorId) {
-    return this.menuRepository.findByVendorId(vendorId);
+  static async getMenuById(id) {
+    return await MenuRepository.findById(id);
   }
 
-  getMenuById(id) {
-    return this.menuRepository.findById(id);
+  static async createMenu(menuData) {
+    return await MenuRepository.create(menuData);
   }
 
-  createMenu(menuData) {
-    return this.menuRepository.create(menuData);
+  static async updateMenu(id, menuData) {
+    return await MenuRepository.update(id, menuData);
   }
 
-  updateMenu(id, menuData) {
-    return this.menuRepository.update(id, menuData);
-  }
-
-  async updateVendorMenu(id, vendorId, menuData) {
-    const menu = await this.menuRepository.findVendorMenu(id, vendorId);
+  static async updateVendorMenu(id, vendorId, menuData) {
+    const menu = await MenuRepository.findVendorMenu(id, vendorId);
 
     if (!menu) {
       throw new CustomError("Menu item not found or you do not have permission to edit this item", 403);
     }
 
-    await this.menuRepository.update(id, menuData);
+    await MenuRepository.update(id, menuData);
     return await this.getMenuById(id);
   }
 
-  deleteMenu(id) {
-    return this.menuRepository.delete(id);
+  static async deleteMenu(id) {
+    return await MenuRepository.delete(id);
   }
 }
 

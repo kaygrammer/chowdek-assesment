@@ -1,24 +1,20 @@
 import CustomerRepository from "../../repositories/customer/CustomerRepository.js";
-import { CustomError, NotFoundError } from "../../../../utils/lib/custom-error-handler.js";
+import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 import { generateAuthResponse } from "../../../../middleware/isAuthenticated.js";
-import { passwordCompare, passwordHash } from "../../../../middleware/hashing.js";
+import PasswordService from "../../../../middleware/hashing.js";
 
 class CustomerService {
-  constructor() {
-    this.customerRepository = new CustomerRepository();
-  }
-
-  async register(customerData) {
+  static async register(customerData) {
     try {
-      const existingCustomer = await this.customerRepository.findByEmail(customerData.email);
+      const existingCustomer = await CustomerRepository.findByEmail(customerData.email);
 
       if (existingCustomer) {
         throw new CustomError("Email already in use", 400);
       }
 
-      const hashedPassword = await passwordHash(customerData.password);
+      const hashedPassword = await PasswordService.hash(customerData.password);
 
-      const newCustomer = await this.customerRepository.create({
+      const newCustomer = await CustomerRepository.create({
         ...customerData,
         password: hashedPassword,
       });
@@ -29,15 +25,15 @@ class CustomerService {
     }
   }
 
-  async login(email, password) {
+  static async login(email, password) {
     try {
-      const customer = await this.customerRepository.findByEmail(email);
+      const customer = await CustomerRepository.findByEmail(email);
 
       if (!customer) {
         throw new CustomError("Invalid email", 401);
       }
 
-      const checkPassword = await passwordCompare(password, customer.password);
+      const checkPassword = await PasswordService.compare(password, customer.password);
 
       if (!checkPassword) {
         throw new CustomError("Incorrect password, input the correct details and try again", 401);
@@ -49,28 +45,28 @@ class CustomerService {
     }
   }
 
-  getAllCustomers() {
-    return this.customerRepository.findAll();
+  static async getAllCustomers() {
+    return await CustomerRepository.findAll();
   }
 
-  getCustomerById(id) {
-    return this.customerRepository.findById(id);
+  static async getCustomerById(id) {
+    return await CustomerRepository.findById(id);
   }
 
-  getCustomerByEmail(email) {
-    return this.customerRepository.findByEmail(email);
+  static async getCustomerByEmail(email) {
+    return await CustomerRepository.findByEmail(email);
   }
 
-  createCustomer(customerData) {
-    return this.customerRepository.create(customerData);
+  static createCustomer(customerData) {
+    return CustomerRepository.create(customerData);
   }
 
-  updateCustomer(id, customerData) {
-    return this.customerRepository.update(id, customerData);
+  static updateCustomer(id, customerData) {
+    return CustomerRepository.update(id, customerData);
   }
 
-  deleteCustomer(id) {
-    return this.customerRepository.delete(id);
+  static deleteCustomer(id) {
+    return CustomerRepository.delete(id);
   }
 }
 

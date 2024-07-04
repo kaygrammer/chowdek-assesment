@@ -1,5 +1,4 @@
 import Joi from "joi";
-import mongoose from "mongoose";
 
 const validateRequest = (schema) => {
   return (req, res, next) => {
@@ -29,8 +28,6 @@ const schemas = {
       .length(11)
       .pattern(/[6-9]{1}[0-9]{9}/)
       .required(),
-    //phoneOtp:Joi.string().expiration('2m').optional(),
-    //emailOtp:Joi.string().expiration('2m').default(false).optional()
   }),
 };
 
@@ -52,15 +49,4 @@ const customerSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const validateMongoDbId = (id) => {
-  const isValid = mongoose.Types.ObjectId.isValid(id);
-  if (!isValid) throw new Error("this id is not valid or not found");
-};
-
-export {
-  validateRequest,
-  schemas,
-  menuSchema,
-  customerSchema,
-  validateMongoDbId,
-};
+export { validateRequest, schemas, menuSchema, customerSchema };

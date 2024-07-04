@@ -2,25 +2,25 @@ import Menu from "../../models/menu.js";
 import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuRepository {
-  findAll() {
+  static async findAll() {
     return Menu.findAll();
   }
 
-  findByVendorId(vendorId) {
+  static async findByVendorId(vendorId) {
     return Menu.findAll({
       where: { vendorId },
     });
   }
 
-  findById(id) {
+  static async findById(id) {
     return Menu.findByPk(id);
   }
 
-  create(menuData) {
+  static async create(menuData) {
     return Menu.create(menuData);
   }
 
-  async update(id, menuData) {
+  static async update(id, menuData) {
     return await Menu.update(menuData, {
       where: { id },
       returning: true,
@@ -28,14 +28,14 @@ class MenuRepository {
     });
   }
 
-  async findVendorMenu(id, vendorId) {
+  static async findVendorMenu(id, vendorId) {
     return await Menu.findOne({
       where: { id, vendorId },
     });
   }
 
-  delete(id) {
-    return Menu.destroy({
+  static async delete(id) {
+    return await Menu.destroy({
       where: { id },
     });
   }
