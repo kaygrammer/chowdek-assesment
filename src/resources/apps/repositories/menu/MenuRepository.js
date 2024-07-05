@@ -1,23 +1,22 @@
 import Menu from "../../models/menu.js";
-import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuRepository {
   static async findAll() {
-    return Menu.findAll();
+    return await Menu.findAll();
   }
 
   static async findByVendorId(vendorId) {
-    return Menu.findAll({
+    return await Menu.findAll({
       where: { vendorId },
     });
   }
 
   static async findById(id) {
-    return Menu.findByPk(id);
+    return await Menu.findByPk(id);
   }
 
   static async create(menuData) {
-    return Menu.create(menuData);
+    return await Menu.create(menuData);
   }
 
   static async update(id, menuData) {

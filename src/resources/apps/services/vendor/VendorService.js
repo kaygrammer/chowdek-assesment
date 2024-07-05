@@ -20,8 +20,8 @@ class VendorService {
       });
 
       return generateAuthResponse(newVendor);
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -39,8 +39,8 @@ class VendorService {
       }
 
       return generateAuthResponse(vendor);
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
   static async getAllVendors() {

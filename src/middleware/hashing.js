@@ -32,7 +32,6 @@ class PasswordService {
       const hash = await bcrypt.hash(data, salt);
       return hash;
     } catch (error) {
-      console.error("Error hashing password:", error);
       throw new Error("Hashing failed");
     }
   }
@@ -41,7 +40,6 @@ class PasswordService {
     try {
       return await bcrypt.compare(data, hash);
     } catch (error) {
-      console.error("Error comparing password:", error);
       throw new Error("Comparison failed");
     }
   }

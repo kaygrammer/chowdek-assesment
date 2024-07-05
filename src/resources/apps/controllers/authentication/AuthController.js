@@ -23,7 +23,6 @@ class AuthController {
       if (err instanceof CustomError) {
         errorResMsg(res, err.statusCode, err.message);
       } else {
-        console.log(err.message);
         errorResMsg(res, 500, "Oops, something went wrong...");
       }
     }
@@ -59,7 +58,7 @@ class AuthController {
       if (err instanceof CustomError) {
         errorResMsg(res, err.statusCode, err.message);
       } else {
-        errorResMsg(res, 500, err.message);
+        errorResMsg(res, 500, "Oops, something went wrong...");
       }
     }
   }

@@ -20,8 +20,8 @@ class CustomerService {
       });
 
       return generateAuthResponse(newCustomer);
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -40,33 +40,70 @@ class CustomerService {
       }
 
       return generateAuthResponse(customer);
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
 
   static async getAllCustomers() {
-    return await CustomerRepository.findAll();
+    try {
+      const cust = await CustomerRepository.findAll();
+      return cust;
+    } catch (erroor) {
+      throw error;
+    }
   }
 
   static async getCustomerById(id) {
-    return await CustomerRepository.findById(id);
+    const customer = await CustomerRepository.findById(id);
+    if (!customer) {
+      throw new CustomError("Customer not found", 404);
+    }
+    return customer;
   }
 
   static async getCustomerByEmail(email) {
-    return await CustomerRepository.findByEmail(email);
+    try {
+      const customer = await CustomerRepository.findByEmail(email);
+      if (!customer) {
+        throw new CustomError("Customer not found", 404);
+      }
+      return customer;
+    } catch (error) {
+      throw error;
+    }
   }
 
   static createCustomer(customerData) {
-    return CustomerRepository.create(customerData);
+    try {
+      return CustomerRepository.create(customerData);
+    } catch (err) {
+      throw new CustomError(err.message, 500);
+    }
   }
 
-  static updateCustomer(id, customerData) {
-    return CustomerRepository.update(id, customerData);
+  static async updateCustomer(id, customerData) {
+    try {
+      const updatedCustomer = await CustomerRepository.update(id, customerData);
+      if (!updatedCustomer) {
+        throw new CustomError("Customer not found", 404);
+      }
+      return updatedCustomer;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  static deleteCustomer(id) {
-    return CustomerRepository.delete(id);
+  static async deleteCustomer(id) {
+    try {
+      const deletedCustomer = await CustomerRepository.delete(id);
+      if (!deletedCustomer) {
+        throw new CustomError("Customer not found", 404);
+      }
+      return deletedCustomer;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

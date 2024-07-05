@@ -3,38 +3,66 @@ import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuService {
   static async getAllMenus() {
-    return await MenuRepository.findAll();
+    try {
+      return await MenuRepository.findAll();
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async getMenusByVendorId(vendorId) {
-    return await MenuRepository.findByVendorId(vendorId);
+    try {
+      return await MenuRepository.findByVendorId(vendorId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async getMenuById(id) {
-    return await MenuRepository.findById(id);
+    try {
+      return await MenuRepository.findById(id);
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async createMenu(menuData) {
-    return await MenuRepository.create(menuData);
+    try {
+      return await MenuRepository.create(menuData);
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async updateMenu(id, menuData) {
-    return await MenuRepository.update(id, menuData);
+    try {
+      return await MenuRepository.update(id, menuData);
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async updateVendorMenu(id, vendorId, menuData) {
-    const menu = await MenuRepository.findVendorMenu(id, vendorId);
+    try {
+      const menu = await MenuRepository.findVendorMenu(id, vendorId);
 
-    if (!menu) {
-      throw new CustomError("Menu item not found or you do not have permission to edit this item", 403);
+      if (!menu) {
+        throw new CustomError("Menu item not found or you do not have permission to edit this item", 403);
+      }
+
+      await MenuRepository.update(id, menuData);
+      return await this.getMenuById(id);
+    } catch (error) {
+      throw error;
     }
-
-    await MenuRepository.update(id, menuData);
-    return await this.getMenuById(id);
   }
 
   static async deleteMenu(id) {
-    return await MenuRepository.delete(id);
+    try {
+      return await MenuRepository.delete(id);
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

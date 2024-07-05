@@ -20,7 +20,7 @@ const Menu = sequelize.define("Menu", {
     allowNull: true,
   },
   price: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
