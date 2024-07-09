@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../database/db.js";
+import { sequelize } from "../../../database/db.js";
 
 const Menu = sequelize.define("Menu", {
   id: {
@@ -20,7 +20,7 @@ const Menu = sequelize.define("Menu", {
     allowNull: true,
   },
   price: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });

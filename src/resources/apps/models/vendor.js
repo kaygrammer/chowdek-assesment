@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../database/db.js";
+import { sequelize } from "../../../database/db.js";
 
 const Vendor = sequelize.define("Vendor", {
   id: {
@@ -28,7 +28,6 @@ const Vendor = sequelize.define("Vendor", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  
 });
 
 export default Vendor;

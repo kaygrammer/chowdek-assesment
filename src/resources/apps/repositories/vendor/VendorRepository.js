@@ -1,31 +1,31 @@
 import Vendor from "../../models/vendor.js";
 
 class VendorRepository {
-  findAll() {
-    return Vendor.findAll();
+  static async findAll() {
+    return await Vendor.findAll();
   }
 
-  findById(id) {
-    return Vendor.findByPk(id);
+  static async findById(id) {
+    return await Vendor.findByPk(id);
   }
 
-  create(vendorData) {
-    return Vendor.create(vendorData);
+  static async create(vendorData) {
+    return await Vendor.create(vendorData);
   }
 
-  update(id, vendorData) {
-    return Vendor.update(vendorData, {
+  static async update(id, vendorData) {
+    return await Vendor.update(vendorData, {
       where: { id },
       returning: true,
       plain: true,
     });
   }
 
-  async findByEmail(email) {
+  static async findByEmail(email) {
     return await Vendor.findOne({ where: { email } });
   }
-  delete(id) {
-    return Vendor.destroy({
+  static async delete(id) {
+    return await Vendor.destroy({
       where: { id },
     });
   }

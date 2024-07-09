@@ -11,10 +11,8 @@ const handleDuplicateFieldsDB = (err) => {
   return new AppError(message, 400);
 };
 
-const handleJWTError = () =>
-  new AppError("Invalid token. Please login again!", 401);
-const handleJWTExpiredError = () =>
-  new AppError("Expired token. Please login again!", 401);
+const handleJWTError = () => new AppError("Invalid token. Please login again!", 401);
+const handleJWTExpiredError = () => new AppError("Expired token. Please login again!", 401);
 
 const sendErrorDev = (err, req, res) => {
   // API
@@ -53,7 +51,6 @@ const sendErrorProd = (err, req, res) => {
 };
 
 module.exports = (err, req, res, next) => {
-  // console.log(err);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 

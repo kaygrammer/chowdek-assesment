@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../database/db.js";
+import { sequelize } from "../../../database/db.js";
 
 const Customer = sequelize.define(
   "Customer",
@@ -28,9 +28,9 @@ const Customer = sequelize.define(
     },
   },
   {
-    timestamps: true, // enables timestamps
-    createdAt: "createdAt", // sets the name of the created at timestamp attribute
-    updatedAt: "updatedAt", // sets the name of the updated at timestamp attribute
+    timestamps: true,
+    createdAt: "createdAt",
+    updatedAt: "updatedAt",
   }
 );
 

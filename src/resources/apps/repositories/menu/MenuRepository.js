@@ -1,26 +1,25 @@
 import Menu from "../../models/menu.js";
-import { CustomError } from "../../../../utils/lib/custom-error-handler.js";
 
 class MenuRepository {
-  findAll() {
-    return Menu.findAll();
+  static async findAll() {
+    return await Menu.findAll();
   }
 
-  findByVendorId(vendorId) {
-    return Menu.findAll({
+  static async findByVendorId(vendorId) {
+    return await Menu.findAll({
       where: { vendorId },
     });
   }
 
-  findById(id) {
-    return Menu.findByPk(id);
+  static async findById(id) {
+    return await Menu.findByPk(id);
   }
 
-  create(menuData) {
-    return Menu.create(menuData);
+  static async create(menuData) {
+    return await Menu.create(menuData);
   }
 
-  async update(id, menuData) {
+  static async update(id, menuData) {
     return await Menu.update(menuData, {
       where: { id },
       returning: true,
@@ -28,14 +27,14 @@ class MenuRepository {
     });
   }
 
-  async findVendorMenu(id, vendorId) {
+  static async findVendorMenu(id, vendorId) {
     return await Menu.findOne({
       where: { id, vendorId },
     });
   }
 
-  delete(id) {
-    return Menu.destroy({
+  static async delete(id) {
+    return await Menu.destroy({
       where: { id },
     });
   }

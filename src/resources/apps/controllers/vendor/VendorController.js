@@ -2,12 +2,10 @@ import VendorService from "../../services/vendor/VendorService.js";
 import { successResMsg, errorResMsg } from "../../../../utils/lib/response.js";
 import { CustomError, NotFoundError } from "../../../../utils/lib/custom-error-handler.js";
 
-const vendorService = new VendorService();
-
 class VendorController {
   async listVendors(req, res) {
     try {
-      const vendors = await vendorService.getAllVendors();
+      const vendors = await VendorService.getAllVendors();
 
       if (!vendors || vendors.length === 0) {
         throw new NotFoundError("Vendors not found");
@@ -29,7 +27,7 @@ class VendorController {
   async getVendor(req, res) {
     const { id } = req.params;
     try {
-      const vendor = await vendorService.getVendorById(id);
+      const vendor = await VendorService.getVendorById(id);
       if (!vendor) {
         throw new NotFoundError("Vendor not found");
       }
@@ -49,7 +47,7 @@ class VendorController {
   async createVendor(req, res) {
     const vendorData = req.body;
     try {
-      const newVendor = await vendorService.createVendor(vendorData);
+      const newVendor = await VendorService.createVendor(vendorData);
       return successResMsg(res, 201, {
         message: "Vendor created successfully",
         newVendor,
@@ -67,7 +65,7 @@ class VendorController {
     const { id } = req.params;
     const vendorData = req.body;
     try {
-      const updatedVendor = await vendorService.updateVendor(id, vendorData);
+      const updatedVendor = await VendorService.updateVendor(id, vendorData);
       return successResMsg(res, 200, {
         message: "Vendor updated successfully",
         updatedVendor,
@@ -84,7 +82,7 @@ class VendorController {
   async deleteVendor(req, res) {
     const { id } = req.params;
     try {
-      await vendorService.deleteVendor(id);
+      await VendorService.deleteVendor(id);
       return successResMsg(res, 200, {
         message: "Vendor deleted successfully",
       });

@@ -5,8 +5,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const vendorRepository = new VendorRepository();
-
 class AuthMiddleware {
   async isAuthenticated(req, res, next) {
     try {
@@ -26,14 +24,10 @@ class AuthMiddleware {
   async isVendor(req, res, next) {
     try {
       const vendorId = req.user.id;
-      const vendor = await vendorRepository.findById(vendorId);
+      const vendor = await VendorRepository.findById(vendorId);
 
       if (!vendor) {
-        return errorResMsg(
-          res,
-          401,
-          "You must be a vendor to access this contents"
-        );
+        return errorResMsg(res, 401, "You must be a vendor to access this contents");
       }
 
       next();
@@ -51,7 +45,7 @@ const generateAuthResponse = (payload) => {
   });
   return {
     token,
-    data: {
+    user: {
       id: payload.id,
       name: payload.name,
       email: payload.email,

@@ -10,7 +10,7 @@ router.get("/all/:vendorId", authMiddleware.isAuthenticated, menuController.list
 router.post("/", authMiddleware.isAuthenticated, authMiddleware.isVendor, menuController.createMenu);
 router.get("/:id", authMiddleware.isAuthenticated, menuController.getMenu);
 router.put("/:id", authMiddleware.isAuthenticated, authMiddleware.isVendor, menuController.updateMenu);
-router.put("/vendor/:id", authMiddleware.isAuthenticated, authMiddleware.isVendor, menuController.updateVendorMenu);
+router.put("/:id", authMiddleware.isAuthenticated, authMiddleware.isVendor, menuController.updateVendorMenu);
 router.delete("/:id", authMiddleware.isAuthenticated, authMiddleware.isVendor, menuController.deleteMenu);
 
 export default router;

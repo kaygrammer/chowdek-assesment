@@ -3,12 +3,10 @@ import { successResMsg, errorResMsg } from "../../../../utils/lib/response.js";
 import { CustomError, NotFoundError } from "../../../../utils/lib/custom-error-handler.js";
 import { menuSchema } from "../../../../utils/validation/validation.js";
 
-const menuService = new MenuService();
-
 class MenuController {
   async listMenus(req, res) {
     try {
-      const menus = await menuService.getAllMenus();
+      const menus = await MenuService.getAllMenus();
 
       if (!menus || menus.length === 0) {
         throw new NotFoundError("Menus not found");
@@ -31,7 +29,7 @@ class MenuController {
     const { vendorId } = req.params;
     console.log(vendorId);
     try {
-      const menus = await menuService.getMenusByVendorId(vendorId);
+      const menus = await MenuService.getMenusByVendorId(vendorId);
 
       if (!menus || menus.length === 0) {
         throw new NotFoundError("Menus not found for the vendor");
@@ -54,7 +52,7 @@ class MenuController {
     const { id } = req.params;
     try {
       console.log(id);
-      const menu = await menuService.getMenuById(id);
+      const menu = await MenuService.getMenuById(id);
       if (!menu) {
         throw new NotFoundError("Menu item not found");
       }
@@ -79,7 +77,7 @@ class MenuController {
     }
     const menuData = { ...req.body, vendorId };
     try {
-      const newMenu = await menuService.createMenu(menuData);
+      const newMenu = await MenuService.createMenu(menuData);
       return successResMsg(res, 201, {
         message: "Menu created successfully",
         newMenu,
@@ -88,7 +86,7 @@ class MenuController {
       if (err instanceof CustomError) {
         errorResMsg(res, err.statusCode, err.message);
       } else {
-        errorResMsg(res, 500, err.message);
+        errorResMsg(res, 500, "Oops, something went wrong...");
       }
     }
   }
@@ -101,7 +99,7 @@ class MenuController {
     }
     const menuData = req.body;
     try {
-      const updatedMenu = await menuService.updateMenu(id, menuData);
+      const updatedMenu = await MenuService.updateMenu(id, menuData);
       return successResMsg(res, 200, {
         message: "Menu updated successfully",
         updatedMenu,
@@ -124,7 +122,7 @@ class MenuController {
     }
     const menuData = req.body;
     try {
-      const updatedMenu = await menuService.updateVendorMenu(id, vendorId, menuData);
+      const updatedMenu = await MenuService.updateVendorMenu(id, vendorId, menuData);
       return successResMsg(res, 200, {
         message: "Menu updated successfully",
         updatedMenu,
@@ -141,7 +139,7 @@ class MenuController {
   async deleteMenu(req, res) {
     const { id } = req.params;
     try {
-      await menuService.deleteMenu(id);
+      await MenuService.deleteMenu(id);
       return successResMsg(res, 200, {
         message: "Menu deleted successfully",
       });
